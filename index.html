@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idle Game</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 id="spudCount">Collected Spuds: 0</h1>
+    <h2 id="spudsPerSecond">Spuds per second: 0</h2>
+    <img
+      src="images/spud.png"
+      alt="Spud"
+      onclick="clickSpud()"
+      id="spudImage"
+    />
+    <div class="extensions">
+      <div class="extension">
+        <h2 id="workersCount">Field Workers: 0</h2>
+        <button onclick="buyFieldWorkers()" id="workerCost">
+          Buy Field Worker (50 Spuds)
+        </button>
+        <button
+          onclick="upgradeFieldWorkers()"
+          id="workerUpgrade"
+          style="display: none"
+        >
+          Upgrade Field Workers (10000 Spuds)
+        </button>
+      </div>
+    </div>
+    <p id="error"></p>
+    <script src="script.js"></script>
+  </body>
+</html>

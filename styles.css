@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(41, 40, 40); /* Änderung des Hintergrundes auf Grau */
+}
+
+#spudCount {
+  margin: 30px;
+  color: #fff; /* Änderung der Schriftfarbe auf Weiß */
+}
+
+#spudsPerSecond {
+  margin: 30px;
+  color: #fff; /* Änderung der Schriftfarbe auf Weiß */
+}
+
+#spudImage {
+  width: 250px;
+  cursor: pointer;
+  float: left; /* Positionierung des Spud-Bildes links */
+  margin-right: 20px; /* Abstand zum Text */
+  margin-left: 60px;
+}
+
+.extensions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  text-align: center;
+  margin: 20px;
+}
+
+.extension {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+
+#error {
+  color: red;
+  font-weight: bold;
+  margin: 10px;
+}
