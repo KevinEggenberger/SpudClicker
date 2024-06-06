@@ -7,6 +7,7 @@ let fieldWorkerCost = 5; // Cost for one Field Worker
 let fieldWorkerUpgradeCost = 100; // Initial cost for the upgrade
 
 let availableUpgradesFieldWorker = 0; // Counter for available upgrades
+let upgradesPurchasedFieldWorker = 0; // Counter for purchased upgrades
 
 // Function for clicking the Spud
 function clickSpud() {
@@ -26,7 +27,7 @@ function buyFieldWorkers() {
     collectedSpuds -= fieldWorkerCost;
     fieldWorkers += 1;
     spudsPerSecond += 1; // Each Field Worker increases yield by 1 Spud per second
-    fieldWorkerCost *= 1; // Increase the cost of Field Workers by 10%
+    fieldWorkerCost = Math.ceil(fieldWorkerCost * 1); // Increase the cost of Field Workers by 10%
     checkForUpgradeFieldWorker(); // Check if upgrade is available
     updateUI();
   } else {
@@ -42,8 +43,9 @@ function upgradeFieldWorkers() {
   ) {
     collectedSpuds -= fieldWorkerUpgradeCost;
     spudsPerSecond += fieldWorkers * 0.5; // Example upgrade: increase yield by 50%
-    fieldWorkerUpgradeCost *= 1.5; // Increase the cost of the next upgrade
+    fieldWorkerUpgradeCost = Math.ceil(fieldWorkerUpgradeCost * 1.5); // Increase the cost of the next upgrade
     availableUpgradesFieldWorker--; // Decrease the count of available upgrades
+    upgradesPurchasedFieldWorker++; // Increase the count of purchased upgrades
     if (availableUpgradesFieldWorker === 0) {
       document.getElementById("workerUpgrade").style.display = "none"; // Hide the upgrade button
     }
@@ -56,9 +58,8 @@ function upgradeFieldWorkers() {
 // Function to check if upgrade is available for Field Workers
 function checkForUpgradeFieldWorker() {
   const totalUpgrades = Math.floor(fieldWorkers / 50);
-  const newUpgradesFieldWorker = totalUpgrades - availableUpgradesFieldWorker;
-  if (newUpgradesFieldWorker > 0) {
-    availableUpgradesFieldWorker += newUpgradesFieldWorker; // Add new available upgrades
+  if (totalUpgrades > upgradesPurchasedFieldWorker) {
+    availableUpgradesFieldWorker = totalUpgrades - upgradesPurchasedFieldWorker; // Set available upgrades
     document.getElementById("workerUpgrade").style.display = "block"; // Show the upgrade button
   }
 }
@@ -82,7 +83,7 @@ function updateUI() {
       "workerUpgrade"
     ).innerHTML = `Upgrade Field Workers <br>(${Math.floor(
       fieldWorkerUpgradeCost
-    )} Spuds)<br>Available Upgrades: ${availableUpgradesFieldWorker}`;
+    )} Spuds) <br>Available Upgrades: ${availableUpgradesFieldWorker}`;
   }
 }
 
