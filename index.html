@@ -18,8 +18,14 @@
     <div class="extensions">
       <div class="extension">
         <h2 id="workersCount">Field Workers: 0</h2>
-        <button onclick="buyFieldWorkers()" id="workerCost">
+        <button onclick="buyFieldWorkers(1)" id="workerCost">
           Buy Field Worker (50 Spuds)
+        </button>
+        <button onclick="buyFieldWorkers(10)" id="workerCost10">
+          Buy 10 Field Workers (500 Spuds)
+        </button>
+        <button onclick="buyFieldWorkers(100)" id="workerCost100">
+          Buy 100 Field Workers (5000 Spuds)
         </button>
         <button
           onclick="upgradeFieldWorkers()"
