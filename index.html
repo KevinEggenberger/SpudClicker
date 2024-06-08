@@ -17,6 +17,7 @@
     />
     <div class="extensions">
       <div class="extension">
+        <!--Field Workers-->
         <h2 id="workersCount">Field Workers: 0</h2>
         <button onclick="buyFieldWorkers(1)" id="workerCost">
           Buy Field Worker (50 Spuds)
@@ -33,6 +34,26 @@
           style="display: none"
         >
           Upgrade Field Workers (10000 Spuds)
+        </button>
+      </div>
+      <div class="extension">
+        <!--Harvesting Machines-->
+        <h2 id="harvestingMachineCount">Harvesting Machines: 0</h2>
+        <button onclick="buyHarvestingMachines(1)" id="harvestingMachineCost">
+          Buy Harvesting Machine (50 Spuds)
+        </button>
+        <button onclick="buyHarvestingMachines(10)" id="harvestingMachine10">
+          Buy 10 Harvesting Machines (500 Spuds)
+        </button>
+        <button onclick="buyHarvestingMachines(100)" id="harvestingMachine100">
+          Buy 100 Harvesting Machines (5000 Spuds)
+        </button>
+        <button
+          onclick="upgradeHarvestingMachines()"
+          id="harvestingMachinesUpgrade"
+          style="display: none"
+        >
+          Upgrade Harvesting Machines (10000 Spuds)
         </button>
       </div>
     </div>
