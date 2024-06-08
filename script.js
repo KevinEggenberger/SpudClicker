@@ -14,6 +14,8 @@ let upgradesPurchasedFieldWorker = 0; // Counter for purchased upgrades
 let availableUpgradesHarvestingMachine = 0; // Counter for available upgrades
 let upgradesPurchasedHarvestingMachine = 0; // Counter for purchased upgrades
 
+let lastUpdateTime = Date.now(); // Variable to store the last update time
+
 // Load game state when the page loads
 window.onload = () => {
   loadGame();
@@ -34,7 +36,10 @@ function clickSpud() {
 
 // Function to increase collected spuds based on spudsPerSecond
 function increaseSpuds() {
-  collectedSpuds += spudsPerSecond / 10; // Update every 100ms, so divide by 10
+  const now = Date.now();
+  const deltaTime = (now - lastUpdateTime) / 1000; // Convert to seconds
+  collectedSpuds += spudsPerSecond * deltaTime; // Calculate spuds collected during the inactive time
+  lastUpdateTime = now;
   updateUI();
 }
 
@@ -287,6 +292,7 @@ function loadGame() {
       gameState.availableUpgradesHarvestingMachine;
     upgradesPurchasedHarvestingMachine =
       gameState.upgradesPurchasedHarvestingMachine;
+    lastUpdateTime = Date.now(); // Reset the last update time
   }
 }
 
@@ -313,3 +319,12 @@ setInterval(increaseSpuds, 100);
 
 // Save game state every second
 setInterval(saveGame, 1000);
+
+// Handle tab visibility change
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    increaseSpuds();
+  } else {
+    lastUpdateTime = Date.now(); // Save the time when the tab is hidden
+  }
+});
