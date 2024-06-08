@@ -70,7 +70,7 @@ function buyFieldWorkers(quantity) {
     fieldWorkers += quantity;
     spudsPerSecond += quantity * Math.pow(2, upgradesPurchasedFieldWorker); // Each Field Worker increases yield by 1 Spud per second, doubled by each upgrade
     for (let i = 0; i < quantity; i++) {
-      fieldWorkerCost = Math.ceil(fieldWorkerCost * 1); // Increase the cost of Field Workers by 10% for each worker
+      fieldWorkerCost = Math.ceil(fieldWorkerCost * 1.1); // Increase the cost of Field Workers by 10% for each worker
     }
     checkForUpgradeFieldWorker(); // Check if upgrade is available
     updateUI();
@@ -90,7 +90,7 @@ function buyHarvestingMachines(quantity) {
     spudsPerSecond +=
       quantity * 5 * Math.pow(2, upgradesPurchasedHarvestingMachine); // Each Harvesting Machine increases yield by 5 Spuds per second, doubled by each upgrade
     for (let i = 0; i < quantity; i++) {
-      harvestingMachineCost = Math.ceil(harvestingMachineCost * 1); // Increase the cost of Harvesting Machines by 10% for each machine
+      harvestingMachineCost = Math.ceil(harvestingMachineCost * 1.1); // Increase the cost of Harvesting Machines by 10% for each machine
     }
     checkForUpgradeHarvestingMachine(); // Check if upgrade is available
     updateUI();
