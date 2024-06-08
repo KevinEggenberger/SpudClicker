@@ -20,13 +20,13 @@
         <!--Field Workers-->
         <h2 id="workersCount">Field Workers: 0</h2>
         <button onclick="buyFieldWorkers(1)" id="workerCost">
-          Buy Field Worker (50 Spuds)
+          Buy Field Worker (50 Spuds) - 1 Spud/sec
         </button>
         <button onclick="buyFieldWorkers(10)" id="workerCost10">
-          Buy 10 Field Workers (500 Spuds)
+          Buy 10 Field Workers (500 Spuds) - 10 Spuds/sec
         </button>
         <button onclick="buyFieldWorkers(100)" id="workerCost100">
-          Buy 100 Field Workers (5000 Spuds)
+          Buy 100 Field Workers (5000 Spuds) - 100 Spuds/sec
         </button>
         <button
           onclick="upgradeFieldWorkers()"
@@ -40,13 +40,13 @@
         <!--Harvesting Machines-->
         <h2 id="harvestingMachineCount">Harvesting Machines: 0</h2>
         <button onclick="buyHarvestingMachines(1)" id="harvestingMachineCost">
-          Buy Harvesting Machine (50 Spuds)
+          Buy Harvesting Machine (50 Spuds) - 5 Spuds/sec
         </button>
         <button onclick="buyHarvestingMachines(10)" id="harvestingMachine10">
-          Buy 10 Harvesting Machines (500 Spuds)
+          Buy 10 Harvesting Machines (500 Spuds) - 50 Spuds/sec
         </button>
         <button onclick="buyHarvestingMachines(100)" id="harvestingMachine100">
-          Buy 100 Harvesting Machines (5000 Spuds)
+          Buy 100 Harvesting Machines (5000 Spuds) - 500 Spuds/sec
         </button>
         <button
           onclick="upgradeHarvestingMachines()"
@@ -57,6 +57,7 @@
         </button>
       </div>
     </div>
+    <button onclick="resetGame()" id="resetButton">Reset Game</button>
     <p id="error"></p>
     <script src="script.js"></script>
   </body>

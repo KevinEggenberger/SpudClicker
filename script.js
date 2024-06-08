@@ -1,7 +1,7 @@
 // Variables
 let collectedSpuds = 0;
 let fieldWorkers = 0;
-let harvestingMachine = 0;
+let harvestingMachines = 0;
 let spudsPerSecond = 0; // Spuds per second
 
 let fieldWorkerCost = 50; // Cost for one Field Worker
@@ -14,15 +14,22 @@ let upgradesPurchasedFieldWorker = 0; // Counter for purchased upgrades
 let availableUpgradesHarvestingMachine = 0; // Counter for available upgrades
 let upgradesPurchasedHarvestingMachine = 0; // Counter for purchased upgrades
 
+// Load game state when the page loads
+window.onload = () => {
+  loadGame();
+  updateUI(); // Update the UI after loading the game state
+};
+
 // Function to format numbers with apostrophes
 function formatNumber(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
 }
 
-// Function for clicking the Spud -- 10% of collectedSpuds per click??
+// Function for clicking the Spud
 function clickSpud() {
   collectedSpuds += 1;
   updateUI();
+  saveGame();
 }
 
 // Function to increase collected spuds based on spudsPerSecond
@@ -63,10 +70,11 @@ function buyFieldWorkers(quantity) {
     fieldWorkers += quantity;
     spudsPerSecond += quantity * Math.pow(2, upgradesPurchasedFieldWorker); // Each Field Worker increases yield by 1 Spud per second, doubled by each upgrade
     for (let i = 0; i < quantity; i++) {
-      fieldWorkerCost = Math.ceil(fieldWorkerCost * 1.1); // Increase the cost of Field Workers by 10% for each worker
+      fieldWorkerCost = Math.ceil(fieldWorkerCost * 1); // Increase the cost of Field Workers by 10% for each worker
     }
     checkForUpgradeFieldWorker(); // Check if upgrade is available
     updateUI();
+    saveGame();
   } else {
     displayErrorMessage("Not enough Spuds!");
   }
@@ -78,14 +86,15 @@ function buyHarvestingMachines(quantity) {
     calculateTotalCostHarvestingMachine(quantity);
   if (collectedSpuds >= totalCostHarvestingMachine) {
     collectedSpuds -= totalCostHarvestingMachine;
-    harvestingMachine += quantity;
+    harvestingMachines += quantity;
     spudsPerSecond +=
       quantity * 5 * Math.pow(2, upgradesPurchasedHarvestingMachine); // Each Harvesting Machine increases yield by 5 Spuds per second, doubled by each upgrade
     for (let i = 0; i < quantity; i++) {
-      harvestingMachineCost = Math.ceil(harvestingMachineCost * 1.1); // Increase the cost of Harvesting Machines by 10% for each machine
+      harvestingMachineCost = Math.ceil(harvestingMachineCost * 1); // Increase the cost of Harvesting Machines by 10% for each machine
     }
     checkForUpgradeHarvestingMachine(); // Check if upgrade is available
     updateUI();
+    saveGame();
   } else {
     displayErrorMessage("Not enough Spuds!");
   }
@@ -106,6 +115,7 @@ function upgradeFieldWorkers() {
       document.getElementById("workerUpgrade").style.display = "none"; // Hide the upgrade button
     }
     updateUI();
+    saveGame();
   } else {
     displayErrorMessage("Not enough Spuds for upgrade!");
   }
@@ -119,7 +129,7 @@ function upgradeHarvestingMachines() {
   ) {
     collectedSpuds -= harvestingMachineUpgradeCost;
     spudsPerSecond +=
-      harvestingMachine * 5 * Math.pow(2, upgradesPurchasedHarvestingMachine); // Double the yield for each Harvesting Machine for each upgrade
+      harvestingMachines * 5 * Math.pow(2, upgradesPurchasedHarvestingMachine); // Double the yield for each Harvesting Machine for each upgrade
     harvestingMachineUpgradeCost = Math.ceil(
       harvestingMachineUpgradeCost * 1.5
     ); // Increase the cost of the next upgrade
@@ -130,6 +140,7 @@ function upgradeHarvestingMachines() {
         "none"; // Hide the upgrade button
     }
     updateUI();
+    saveGame();
   } else {
     displayErrorMessage("Not enough Spuds for upgrade!");
   }
@@ -147,7 +158,7 @@ function checkForUpgradeFieldWorker() {
 
 // Function to check if upgrade is available for Harvesting Machines
 function checkForUpgradeHarvestingMachine() {
-  const totalUpgradesHarvestingMachine = Math.floor(harvestingMachine / 50);
+  const totalUpgradesHarvestingMachine = Math.floor(harvestingMachines / 50);
   if (totalUpgradesHarvestingMachine > upgradesPurchasedHarvestingMachine) {
     availableUpgradesHarvestingMachine =
       totalUpgradesHarvestingMachine - upgradesPurchasedHarvestingMachine; // Set available upgrades
@@ -184,35 +195,47 @@ function updateUI() {
     "workerCost"
   ).innerHTML = `Buy Field Worker<br>(${formatNumber(
     Math.floor(fieldWorkerCost)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    Math.pow(2, upgradesPurchasedFieldWorker)
+  )} Spuds/sec`;
   document.getElementById(
     "workerCost10"
   ).innerHTML = `Buy 10 Field Workers<br>(${formatNumber(
     calculateTotalCostFieldWorker(10)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    10 * Math.pow(2, upgradesPurchasedFieldWorker)
+  )} Spuds/sec`;
   document.getElementById(
     "workerCost100"
   ).innerHTML = `Buy 100 Field Workers<br>(${formatNumber(
     calculateTotalCostFieldWorker(100)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    100 * Math.pow(2, upgradesPurchasedFieldWorker)
+  )} Spuds/sec`;
   document.getElementById(
     "harvestingMachineCount"
-  ).textContent = `Harvesting Machines: ${formatNumber(harvestingMachine)}`;
+  ).textContent = `Harvesting Machines: ${formatNumber(harvestingMachines)}`;
   document.getElementById(
     "harvestingMachineCost"
   ).innerHTML = `Buy Harvesting Machine<br>(${formatNumber(
     Math.floor(harvestingMachineCost)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    5 * Math.pow(2, upgradesPurchasedHarvestingMachine)
+  )} Spuds/sec`;
   document.getElementById(
     "harvestingMachine10"
   ).innerHTML = `Buy 10 Harvesting Machines<br>(${formatNumber(
     calculateTotalCostHarvestingMachine(10)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    50 * Math.pow(2, upgradesPurchasedHarvestingMachine)
+  )} Spuds/sec`;
   document.getElementById(
     "harvestingMachine100"
   ).innerHTML = `Buy 100 Harvesting Machines<br>(${formatNumber(
     calculateTotalCostHarvestingMachine(100)
-  )} Spuds)`;
+  )} Spuds)<br>+${formatNumber(
+    500 * Math.pow(2, upgradesPurchasedHarvestingMachine)
+  )} Spuds/sec`;
   document.getElementById("availableUpgradesFieldWorker");
   document.getElementById(
     "workerUpgrade"
@@ -226,5 +249,67 @@ function updateUI() {
   )} Spuds)<br>Available Upgrades: ${availableUpgradesHarvestingMachine}`;
 }
 
-// Update spuds every 100 milliseconds (0.1 seconds)
+// Function to save the game state to local storage
+function saveGame() {
+  const gameState = {
+    collectedSpuds,
+    fieldWorkers,
+    harvestingMachines,
+    spudsPerSecond,
+    fieldWorkerCost,
+    fieldWorkerUpgradeCost,
+    harvestingMachineCost,
+    harvestingMachineUpgradeCost,
+    availableUpgradesFieldWorker,
+    upgradesPurchasedFieldWorker,
+    availableUpgradesHarvestingMachine,
+    upgradesPurchasedHarvestingMachine,
+  };
+  localStorage.setItem("idleGameState", JSON.stringify(gameState));
+}
+
+// Function to load the game state from local storage
+function loadGame() {
+  const savedState = localStorage.getItem("idleGameState");
+  if (savedState) {
+    const gameState = JSON.parse(savedState);
+    collectedSpuds = gameState.collectedSpuds;
+    fieldWorkers = gameState.fieldWorkers;
+    harvestingMachines = gameState.harvestingMachines;
+    spudsPerSecond = gameState.spudsPerSecond;
+    fieldWorkerCost = gameState.fieldWorkerCost;
+    fieldWorkerUpgradeCost = gameState.fieldWorkerUpgradeCost;
+    harvestingMachineCost = gameState.harvestingMachineCost;
+    harvestingMachineUpgradeCost = gameState.harvestingMachineUpgradeCost;
+    availableUpgradesFieldWorker = gameState.availableUpgradesFieldWorker;
+    upgradesPurchasedFieldWorker = gameState.upgradesPurchasedFieldWorker;
+    availableUpgradesHarvestingMachine =
+      gameState.availableUpgradesHarvestingMachine;
+    upgradesPurchasedHarvestingMachine =
+      gameState.upgradesPurchasedHarvestingMachine;
+  }
+}
+
+// Function to reset the game state
+function resetGame() {
+  collectedSpuds = 0;
+  fieldWorkers = 0;
+  harvestingMachines = 0;
+  spudsPerSecond = 0;
+  fieldWorkerCost = 50;
+  fieldWorkerUpgradeCost = 10000;
+  harvestingMachineCost = 200;
+  harvestingMachineUpgradeCost = 50000;
+  availableUpgradesFieldWorker = 0;
+  upgradesPurchasedFieldWorker = 0;
+  availableUpgradesHarvestingMachine = 0;
+  upgradesPurchasedHarvestingMachine = 0;
+  saveGame();
+  updateUI();
+}
+
+// Update spuds every 100ms
 setInterval(increaseSpuds, 100);
+
+// Save game state every second
+setInterval(saveGame, 1000);

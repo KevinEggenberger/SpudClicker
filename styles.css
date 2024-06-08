@@ -55,6 +55,15 @@ button:disabled {
   background-color: #ccc;
 }
 
+#resetButton {
+  background-color: red;
+  color: white;
+  width: 5%;
+  position: absolute;
+  bottom: 2em;
+  left: 1em;
+}
+
 #error {
   color: red;
   font-weight: bold;
